@@ -1,6 +1,7 @@
 library("dslabs")
 library("dplyr")
 library("tidyverse")
+
 data <- read.csv(file.choose()) # importing data 
 view(data)
 head(data)
@@ -14,6 +15,7 @@ table(data$Sales)
 table(data$Product_Category)
 colSums(is.na(data)) # Checking NA Values
 all(duplicated(data)== TRUE) # Checking duplicate values
+
 # Sales vs Region
 data %>% 
   select(Sales, Region) %>%
@@ -21,7 +23,6 @@ data %>%
   geom_bar(stat="identity")+
   ggtitle("Total Sales by Region")+
   scale_fill_discrete()
-
 
 # Profit Vs Region
 profit_by_region <- aggregate(data$Profit, by=list(Region=data$Region), FUN=sum)
@@ -49,16 +50,13 @@ ggplot(region_profit, aes(x = Region, y = total_profit, fill = Region)) +
         legend.position = "none")
 
 # customer segmentations
-
-
 ggplot(data, aes(x=Region, fill=Customer_Segment)) + 
   geom_bar(position="dodge") + 
   labs(title="Customer Segmentation by Region", x="Region", y="Count") +
   theme_minimal()
+
 # box plot
-
 Data_west <- filter(data, Region == "West")
-
 ggplot(Data_west, aes(x = Customer_Segment, y = Sales, fill = Customer_Segment)) +
   geom_boxplot() +
   labs(x = "Region only on West", y = "Sales", fill = "Customer_Segment") +
@@ -85,7 +83,7 @@ ggplot(data, aes(x = Ship_Mode, y = Sales, fill = Region)) +
   geom_bar(stat = "identity", position = "dodge") +
   facet_wrap(~Region, nrow = 2) +
   labs(x = "Ship Mode", y = "Sales", fill = "Region") +
-  ggtitle("Shipmode in all Regions")+
+  ggtitle("Shipmode in all Regions") +
   theme_bw()
 
 # Regression1
